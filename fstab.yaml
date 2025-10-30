@@ -1,6 +1,6 @@
 mountpoints:
   /:
-    url: https://content.da.live/{org}/{site}/
+    url: https://content.da.live/aditi-pawaskar-dept/storefront-project/
     type: markup
 
 folders:
