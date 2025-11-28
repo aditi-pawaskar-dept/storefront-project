@@ -770,3 +770,41 @@ li
   max-width: 15rem;
   max-height: 15rem;
 }
+
+/* MS SSO Button Styles */
+.ms-sso-button {
+  width: 90%;
+  padding: 9px 0;
+  margin: 10px auto 30px auto;
+  background-color: #454544;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: var(--type-base-font-family);
+  display: block;
+}
+
+.ms-sso-button:hover:not(:disabled) {
+  background-color: #383838; /* Darker Microsoft blue */
+}
+
+.ms-sso-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.ms-sso-button:active:not(:disabled) {
+  background-color: #4f4c4c;
+  transform: scale(0.98);
+}
+
+/* Add spacing between sign-in form and MS SSO button */
+#auth-dropin-container {
+  display: flex;
+  flex-direction: column;
+}

@@ -7,6 +7,8 @@ import {
   CUSTOMER_FORGOTPASSWORD_PATH,
   rootLink,
 } from '../../scripts/commerce.js';
+// Import our custom MS SSO module (separate from core auth)
+import { addMsSsoButton } from './customAuth.js';
 
 function checkAndRedirect(redirections) {
   Object.entries(redirections).some(([currentPath, redirectPath]) => {
@@ -18,12 +20,19 @@ function checkAndRedirect(redirections) {
   });
 }
 
-function renderSignIn(element) {
-  authRenderer.render(SignIn, {
-    onSuccessCallback: () => {},
+async function renderSignIn(element) {
+  // Render the standard Adobe Commerce sign-in form
+  await authRenderer.render(SignIn, {
+    onSuccessCallback: () => { },
     formSize: 'small',
     routeForgotPassword: () => rootLink(CUSTOMER_FORGOTPASSWORD_PATH),
   })(element);
+
+  // Wait a bit for the DOM to settle, then add MS SSO button
+  // Using setTimeout to ensure the SignIn form is fully rendered
+  setTimeout(() => {
+    addMsSsoButton(element);
+  }, 100);
 }
 
 export function renderAuthDropdown(navTools) {
