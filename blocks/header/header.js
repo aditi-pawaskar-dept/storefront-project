@@ -8,6 +8,7 @@ import { fetchPlaceholders, getProductLink, rootLink } from '../../scripts/comme
 
 import renderAuthCombine from './renderAuthCombine.js';
 import { renderAuthDropdown } from './renderAuthDropdown.js';
+import { createBrandBar, initializeBrandDisplay } from './brandBar.js';
 
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 900px)');
@@ -164,6 +165,31 @@ export default async function decorate(block) {
 
   // decorate nav DOM
   block.textContent = '';
+  
+  // Extract brand-bar items from authored content BEFORE moving to nav
+  const brandBarSection = fragment.querySelector('.brand-bar');
+  let authoredBrands = null;
+  if (brandBarSection) {
+    const brandItems = brandBarSection.querySelectorAll('ul li');
+    authoredBrands = Array.from(brandItems).map(li => {
+      const link = li.querySelector('a');
+      if (link) {
+        return {
+          name: link.textContent.trim(),
+          url: link.getAttribute('href')
+        };
+      }
+      // Fallback: if no link, auto-generate URL from text
+      const brandName = li.textContent.trim();
+      return {
+        name: brandName,
+        url: brandName.toUpperCase() === 'RWB' ? '/' : `/${brandName.toLowerCase()}`
+      };
+    });
+    // Remove brand-bar section from fragment so it doesn't appear in nav
+    brandBarSection.remove();
+  }
+  
   const nav = document.createElement('nav');
   nav.id = 'nav';
   while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
@@ -491,7 +517,14 @@ export default async function decorate(block) {
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
   navWrapper.append(nav);
+  
+  // Add brand bar before nav wrapper
+  const brandBar = createBrandBar(authoredBrands);
+  block.append(brandBar);
   block.append(navWrapper);
+
+  // Initialize brand display after nav is ready
+  initializeBrandDisplay();
 
   navWrapper.addEventListener('mouseout', (e) => {
     if (isDesktop.matches && !nav.contains(e.relatedTarget)) {

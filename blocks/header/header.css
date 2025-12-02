@@ -12,6 +12,7 @@ header .nav-wrapper {
   width: 100%;
   z-index: 3;
   position: fixed;
+  top: 48px;
   border-bottom: 1px solid var(--color-neutral-300);
 }
 
@@ -807,4 +808,95 @@ li
 #auth-dropin-container {
   display: flex;
   flex-direction: column;
+}
+
+/* Brand Bar Styles */
+.brand-bar {
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 4px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scrollbar-width: none;
+  scrollbar-color: #ccc transparent;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 4;
+}
+
+.brand-bar::-webkit-scrollbar {
+  height: 6px;
+}
+
+.brand-bar::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
+.brand-bar-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 1264px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.brand-bar-item {
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.brand-bar-item:hover {
+  color: #000 !important;
+  background-color: #e8e8e8 !important;
+}
+
+.brand-bar-item.active {
+  color: #000;
+  font-weight: 700;
+  cursor: default;
+}
+
+.brand-bar-item.disabled {
+  color: #999;
+  opacity: 0.6;
+}
+
+.brand-bar-item.disabled:hover {
+  color: #666;
+  background-color: #f0f0f0;
+}
+
+@media (max-width: 899px) {
+  .brand-bar-container {
+    padding: 0 24px;
+    gap: 24px;
+  }
+
+  .brand-bar-item {
+    font-size: 12px;
+  }
+}
+
+
+header .block {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 4;
 }
