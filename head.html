@@ -1,8 +1,6 @@
-<meta
-  http-equiv="Content-Security-Policy"
-  content="script-src 'nonce-aem' 'strict-dynamic' 'unsafe-inline' http: https:; base-uri 'self'; object-src 'none';"
-  move-to-http-header="true"
->
+<meta http-equiv="Content-Security-Policy"
+    content="script-src 'nonce-aem' 'strict-dynamic' 'unsafe-inline' http: https:; base-uri 'self'; object-src 'none';"
+    move-to-http-header="true">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <script nonce="aem" type="speculationrules">
     {
@@ -34,7 +32,26 @@
     }
 </script>
 
-<link rel="stylesheet" href="/styles/styles.css" />
+<script nonce="aem">
+    function getMetadata(name, doc = document) {
+        const attr = name && name.includes(':') ? 'property' : 'name';
+        const meta = [...doc.head.querySelectorAll(`meta[${attr}="${name}"]`)]
+            .map((m) => m.content)
+            .join(', ');
+        return meta || '';
+    }
+
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = `/styles${getMetadata('theme') ? '/' + getMetadata('theme') + '/' : '/default/'}styles.css`;
+
+    document.head.appendChild(link);
+    const link2 = document.createElement('link');
+    link2.rel = 'stylesheet';
+    link2.href = `/styles/styles.css`;
+
+    document.head.appendChild(link2);
+</script>
 
 <script nonce="aem" type="module">
     if (!(HTMLScriptElement.supports?.('importmap'))) {
