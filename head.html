@@ -43,13 +43,15 @@
 
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = `/styles/${getMetadata('theme') || 'rwb'}/styles.css`;
-
-    debugger;
+    link.href = `/styles${getMetadata('theme') ? '/' + getMetadata('theme') + '/' : '/default/'}styles.css`;
 
     document.head.appendChild(link);
-</script>
+    const link2 = document.createElement('link');
+    link2.rel = 'stylesheet';
+    link2.href = `/styles/styles.css`;
 
+    document.head.appendChild(link2);
+</script>
 
 <script nonce="aem" type="module">
     if (!(HTMLScriptElement.supports?.('importmap'))) {
